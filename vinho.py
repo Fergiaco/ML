@@ -56,8 +56,8 @@ print('Precisao=',precisao)
 #Plot
 #sns.relplot(data=reduzido, x='x', y='y', hue='Clusters', palette='tab10', kind='scatter')
 plt.title('K-Means Vinho')
+plt.scatter(reduzido['x'],reduzido['y'],c=reduzido['Clusters'],s=30)
 plt.scatter(centroids[:,0],centroids[:,1],c='r',marker='x',s=100)
-plt.scatter(reduzido['x'],reduzido['y'],c=reduzido['Clusters'])
 plt.savefig('results/kmeans'+str(num_clusters)+'.png')
 plt.show()
 
