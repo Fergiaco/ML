@@ -1,7 +1,8 @@
-
+from matplotlib.colors import Colormap
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn import metrics
 from sklearn.datasets import load_wine
 from sklearn.svm import SVC
 from sklearn.cluster import KMeans
@@ -53,12 +54,18 @@ for x in reduzido.values:
 precisao=cont/total*100
 print('Precisao=',precisao)
 
+#Printa report
+print(
+    f"Classification report for classifier {km}:\n"
+    f"{metrics.classification_report(clusters, target)}\n"
+)
+
 #Plot
-#sns.relplot(data=reduzido, x='x', y='y', hue='Clusters', palette='tab10', kind='scatter')
 plt.title('K-Means Vinho')
-plt.scatter(reduzido['x'],reduzido['y'],c=reduzido['Clusters'],s=30)
-plt.scatter(centroids[:,0],centroids[:,1],c='r',marker='x',s=100)
-plt.savefig('results/kmeans'+str(num_clusters)+'.png')
+sns.scatterplot(data=reduzido, x='x', y='y', hue='Clusters', palette='tab10')
+#plt.scatter(reduzido['x'],reduzido['y'],c=reduzido['Clusters'],s=30)
+#plt.scatter(centroids[:,0],centroids[:,1],c='r',marker='x',s=100)
+plt.savefig('results/vinho_kmeans'+str(num_clusters)+'.png')
 plt.show()
 
 

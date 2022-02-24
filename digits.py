@@ -1,10 +1,6 @@
-from cgi import test
 import matplotlib.pyplot as plt
-import pandas as pd
 from sklearn import svm, metrics, datasets
 from sklearn.model_selection import train_test_split
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
 
 #Carrega o dataset 
 digits=datasets.load_digits()
@@ -19,16 +15,13 @@ for ax, image, label in zip(axes, digits.images, digits.target):
 plt.show()
 
 num_samples=len(digits.images)
-#print(num_samples)
 data = digits.images.reshape((num_samples, -1))
 #print(data[0])
 
 #Divide os dados em treino e teste
 X_treino,X_teste,y_treino,y_teste=train_test_split(data,digits.target,test_size=0.5)
-#print(X_treino)
 
-#SVM
-#gamma=0.001
+#SVM    #gamma=0.001
 classifier=svm.SVC()
 classifier.fit(X_treino,y_treino)
 predicted=classifier.predict(X_teste)
@@ -47,3 +40,10 @@ print(
     f"Classification report for classifier {classifier}:\n"
     f"{metrics.classification_report(y_teste, predicted)}\n"
 )
+
+#Matriz de confusao
+disp = metrics.ConfusionMatrixDisplay.from_predictions(y_teste, predicted)
+disp.figure_.suptitle("Confusion Matrix")
+print(f"Confusion matrix:\n{disp.confusion_matrix}")
+
+plt.show()
