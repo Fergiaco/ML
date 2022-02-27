@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn import svm, metrics, datasets,linear_model
 from sklearn.model_selection import train_test_split
+from sklearn.decomposition import PCA
 
 def linear_reg(data):
     
@@ -12,12 +13,11 @@ def linear_reg(data):
     #Divide os dados em treino e teste
     X_treino,X_teste,y_treino,y_teste=train_test_split(features,target,test_size=0.5)
 
+    #Linear Reg
     reg=linear_model.LinearRegression()
     reg.fit(X_treino,y_treino)
     predicted=pd.Series(reg.predict(X_teste),index=X_teste.index,name='predicted')
     
-    #print(pd.concat([y_teste,predicted],axis=1))
-
     #Printa report
     print('========================')
     print("Linear Regression")
@@ -25,8 +25,12 @@ def linear_reg(data):
     print("Mean squared error: %.2f" % metrics.mean_squared_error(y_teste, predicted))
     print("Coefficient of determination: %.2f" % metrics.r2_score(y_teste, predicted)) 
     #print("Coeficientes: ",reg.coef_)
+    #print(pd.concat([y_teste,predicted],axis=1))
 
+    pca=PCA(2)
+    feat=pd.DataFrame(pca.fit_transform(X_teste),index=X_teste.index,columns=['x','y'])
 
+    
 def SVM_reg(data):
 
     target=data.target
@@ -49,7 +53,6 @@ def SVM_reg(data):
     print('variance_score: %.2f' % metrics.explained_variance_score(y_teste, predicted))
     print("Mean squared error: %.2f" % metrics.mean_squared_error(y_teste, predicted))
     print("Coefficient of determination: %.2f" % metrics.r2_score(y_teste, predicted)) 
-
 
 #Carrega o dataset 
 diabetes=datasets.load_diabetes(as_frame=True)
